@@ -1,10 +1,18 @@
 import React from "react";
+import AppRouter from "components/Router";
+import myFirebaseApp from "firebaseInstance";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   return (
-    <div>
-
-    </div>
+    <>
+      <AppRouter
+        isLoggedIn={isLoggedIn}
+      />
+      <footer>
+        &copy; {new Date().getFullYear()} Nwitter
+      </footer>
+    </>
   );
 }
 
