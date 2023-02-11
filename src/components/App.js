@@ -5,6 +5,7 @@ import { myFirebaseApp, fbAuth } from "firebaseInstance";
 function App() {
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
   // Use Hook to add 'onAuthStateChanged' Event Lister to 'useEffect'(= 'Mounting Components' Event Lister)
   useEffect(() => {
     fbAuth.onAuthStateChanged((user) => {
@@ -12,6 +13,7 @@ function App() {
       setInit(true);
     });
   }, [])
+  
   return (
     <>
       {/* Show 'AppRouter' only after initializing is finished */}

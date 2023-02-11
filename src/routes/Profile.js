@@ -1,4 +1,18 @@
+import { fbAuth } from "firebaseInstance";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Profile = () => <span>Profile</span>;
+function Profile() {
+    const history = useNavigate();
+    const onSignOutClick = () => {
+        fbAuth.signOut();
+        history("/");
+    }
+    return (
+        <>
+            <button onClick={onSignOutClick}>Sign Out</button>
+        </>
+    );
+}
+
 export default Profile;
