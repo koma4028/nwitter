@@ -5,21 +5,28 @@ import { myFirebaseApp, fbAuth } from "firebaseInstance";
 function App() {
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [userObj, setUserObj] = useState(null);
 
   // Use Hook to add 'onAuthStateChanged' Event Lister to 'useEffect'(= 'Mounting Components' Event Lister)
   useEffect(() => {
     fbAuth.onAuthStateChanged((user) => {
-      user ? setIsLoggedIn(true) : setIsLoggedIn(false);
+      if (user) {
+        setIsLoggedIn(true);
+        setUserObj(user);
+      } else {
+        setIsLoggedIn(false);
+      }
       setInit(true);
     });
   }, [])
-  
+
   return (
     <>
       {/* Show 'AppRouter' only after initializing is finished */}
       {init ?
         <AppRouter
           isLoggedIn={isLoggedIn}
+          userObj={userObj}
         />
         : "Initializing..."
       }
