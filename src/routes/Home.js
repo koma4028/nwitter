@@ -1,15 +1,16 @@
 import { fbFirestore } from "firebaseInstance";
 import React, { useEffect, useState } from "react";
 
-const Home = () => {
+const Home = ({ userObj }) => {
     const [bulweet, setBulweet] = useState("");
     const [bulweetList, setBulweetList] = useState([]);
 
     const onSubmit = async (event) => {
         event.preventDefault();
         await fbFirestore.collection("bulweets").add({
-            content: bulweet,
-            createDate: Date.now()
+            text: bulweet,
+            createDate: Date.now(),
+            creatorId: userObj.uid,
         });
         setBulweet("");
     };
@@ -53,7 +54,7 @@ const Home = () => {
             <div>
                 {bulweetList.map((eachBulweet) =>
                     <div key={eachBulweet.id}>
-                        <h4>{eachBulweet.content}</h4>
+                        <h4>{eachBulweet.text}</h4>
                     </div>
                 )}
             </div>
