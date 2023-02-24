@@ -1,36 +1,47 @@
-import { fbFirestore } from "firebaseInstance";
+import { fbFirestore, fbStorage } from "firebaseInstance";
+import { v4 as uuidv4 } from "uuid";
 import React, { useEffect, useState } from "react";
 import Bulweet from "components/Bulweet";
 
 const Home = ({ userObj }) => {
+    const fileReader = new FileReader();
     const [bulweet, setBulweet] = useState("");
     const [bulweetList, setBulweetList] = useState([]);
+    const [fileState, setFileState] = useState();
 
     const onSubmit = async (event) => {
-        event.preventDefault();
-        await fbFirestore.collection("bulweets").add({
-            text: bulweet,
-            createDate: Date.now(),
-            creatorId: userObj.uid,
-        });
-        setBulweet("");
+        event.preventDefault(); 
+        const fileRef = fbStorage.ref().child(`${userObj.uid}/${uuidv4()}`);
+        console.log(fileRef);
+        const response = await fileRef.putString(fileState, "data_url");
+        console.log(response);
+
+        // await fbFirestore.collection("bulweets").add({
+        //     text: bulweet,
+        //     createDate: Date.now(),
+        //     creatorId: userObj.uid,
+        // });
+        // setBulweet("");
     };
 
     const onSubmitChange = (event) => {
         const { target: { value } } = event;
         setBulweet(value);
-    }
+    };
 
     const onFileChange = (event) => {
-        const {target: {files}} = event;
+        const { target: { files } } = event;
         const uploadFile = files[0];
-        //console.log(uploadFile);
-        const fileReader = new FileReader();
         // Add Event Listner
-        fileReader.onloadend = (event => {
-            console.log(event);
-        });
+        fileReader.onloadend = (event) => {
+            //console.log(event.currentTarget.result);
+            setFileState(event.currentTarget.result);
+        };
         fileReader.readAsDataURL(uploadFile);
+    };
+
+    const onClearFileState = () => {
+        setFileState(null);
     };
 
     useEffect(() => {
@@ -63,6 +74,12 @@ const Home = ({ userObj }) => {
                 />
                 <input type="file" accept="image/*" onChange={onFileChange} />
                 <input type="submit" value="Bulweet" />
+                {fileState && (
+                    <div>
+                        <img src={fileState} width="50px" height="50px" />
+                        <button onClick={onClearFileState}>Clear</button>
+                    </div>
+                )}
             </form>
             <div>
                 {bulweetList.map((eachBulweet) =>

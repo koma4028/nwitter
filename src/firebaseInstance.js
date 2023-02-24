@@ -21,6 +21,7 @@ const defaultFirebaseApp = firebase;
 const myFirebaseApp = firebase.initializeApp(firebaseConfig);
 const fbAuth = firebase.auth(myFirebaseApp);
 const fbFirestore = firebase.firestore(myFirebaseApp);
+const fbStorage = firebase.storage(myFirebaseApp);
 // const analytics = getAnalytics(myFirebaseApp);
 
-export { defaultFirebaseApp, myFirebaseApp, fbAuth, fbFirestore };
+export { defaultFirebaseApp, myFirebaseApp, fbAuth, fbFirestore, fbStorage };
