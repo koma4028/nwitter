@@ -1,5 +1,6 @@
 import { fbFirestore } from "firebaseInstance";
 import React, { useEffect, useState } from "react";
+import Bulweet from "components/Bulweet";
 
 const Home = ({ userObj }) => {
     const [bulweet, setBulweet] = useState("");
@@ -20,24 +21,18 @@ const Home = ({ userObj }) => {
         setBulweet(value);
     }
 
-    const getBulweets = async () => {
-        // collection.get()의 return인 Promise<QuerySnapshot>은 await 후에 QuerySnapshot을 반환한다.
-        const dbList = await fbFirestore.collection("bulweets").get();
-        let newDbList = [];
-
-        dbList.forEach((result) => {
-            const bulObject = {
-                ...result.data(),
-                id: result.id
-            };
-            newDbList = [bulObject, ...newDbList];
-        });
-
-        setBulweetList(newDbList);
-    };
-
     useEffect(() => {
-        getBulweets();
+        console.log("useEffect");
+        // onSnapShot을 useEffect 내에서 최초로 불렀을 때 Callback Function이 실행되고,
+        // 이후에는 useEffect와 무관하게 DB 변경이 있을 때마다 onSnapshot Callback이 실행된다.
+        fbFirestore.collection("bulweets").onSnapshot((snapshot) => {
+            console.log("onSnapshot");
+            const bulweetArray = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setBulweetList(bulweetArray);
+        });
     }, []);
 
     return (
@@ -53,9 +48,11 @@ const Home = ({ userObj }) => {
             </form>
             <div>
                 {bulweetList.map((eachBulweet) =>
-                    <div key={eachBulweet.id}>
-                        <h4>{eachBulweet.text}</h4>
-                    </div>
+                    <Bulweet
+                        key={eachBulweet.id}
+                        bulweetObj={eachBulweet}
+                        isOwner={eachBulweet.creatorId === userObj.uid ? true : false}
+                    />
                 )}
             </div>
         </div>
