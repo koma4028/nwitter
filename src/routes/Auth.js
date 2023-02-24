@@ -1,4 +1,4 @@
-import { defaultFirebaseApp, myFirebaseApp, fbAuth } from "firebaseInstance";
+import { defaultFirebaseApp, fbAuth } from "firebaseInstance";
 import React, { useState } from "react";
 
 const Auth = () => {
@@ -17,15 +17,14 @@ const Auth = () => {
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
-            let userData;
             if (newAccount) {
                 // Create Account
-                userData = await fbAuth.createUserWithEmailAndPassword(email, password);
+                await fbAuth.createUserWithEmailAndPassword(email, password);
             } else {
                 // Login
-                userData = await fbAuth.signInWithEmailAndPassword(email, password);
+                await fbAuth.signInWithEmailAndPassword(email, password);
             }
-            console.log(userData);
+            // console.log(userData);
         } catch (error) {
             setError(error.message);
         }
