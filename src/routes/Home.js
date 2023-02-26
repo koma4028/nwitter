@@ -10,18 +10,21 @@ const Home = ({ userObj }) => {
     const [fileState, setFileState] = useState();
 
     const onSubmit = async (event) => {
-        event.preventDefault(); 
-        const fileRef = fbStorage.ref().child(`${userObj.uid}/${uuidv4()}`);
-        console.log(fileRef);
-        const response = await fileRef.putString(fileState, "data_url");
-        console.log(response);
-
-        // await fbFirestore.collection("bulweets").add({
-        //     text: bulweet,
-        //     createDate: Date.now(),
-        //     creatorId: userObj.uid,
-        // });
-        // setBulweet("");
+        event.preventDefault();
+        let fileDownloadUrl = "";
+        if (fileState !== null && fileState !== "") {
+            const fileRef = fbStorage.ref().child(`${userObj.uid}/${uuidv4()}`);
+            const response = await fileRef.putString(fileState, "data_url");
+            fileDownloadUrl = await response.ref.getDownloadURL();
+        }
+        await fbFirestore.collection("bulweets").add({
+            text: bulweet,
+            createDate: Date.now(),
+            creatorId: userObj.uid,
+            downloadUrl: fileDownloadUrl,
+        });
+        setBulweet("");
+        setFileState("");
     };
 
     const onSubmitChange = (event) => {
@@ -45,7 +48,7 @@ const Home = ({ userObj }) => {
     };
 
     useEffect(() => {
-        console.log("useEffect");
+        console.log("Execute useEffect");
         // 중요!
         // onSnapShot을 useEffect 내에서 최초로 불렀을 때 Callback Function이 실행되고,
         // 이 때 firestore.collection.onSnapshot에 parameter로 입력한 함수가 실행 및 firebase 객체에 저장된다.

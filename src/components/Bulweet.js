@@ -1,4 +1,4 @@
-import { fbFirestore } from "firebaseInstance";
+import { fbFirestore, fbStorage } from "firebaseInstance";
 import React, { useState } from "react";
 
 const Bulweet = ({ bulweetObj, isOwner }) => {
@@ -23,6 +23,7 @@ const Bulweet = ({ bulweetObj, isOwner }) => {
         const ok = window.confirm("Are you sure to delete this Bulweet?");
         if (ok) {
             await fbFirestore.doc(`/bulweets/${bulweetObj.id}`).delete();
+            await fbStorage.refFromURL(bulweetObj.downloadUrl).delete();
         }
     };
 
@@ -65,6 +66,7 @@ const Bulweet = ({ bulweetObj, isOwner }) => {
                 ) : (
                     <>
                         <h4>{bulweetText}</h4>
+                        {bulweetObj.downloadUrl && <img src={bulweetObj.downloadUrl} width="50px" height="50px" />}
                     </>
                 )
             }
