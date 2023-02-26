@@ -7,16 +7,12 @@ function App() {
   const [userObj, setUserObj] = useState(null);
 
   const refreshUser = () => {
-    console.log("App refreshUser");
     const user = fbAuth.currentUser;
-    console.log("refreshUser1", user.displayName);
     setUserObj({
       displayName: user.displayName,
       uid: user.uid,
       updateProfile: (args) => user.updateProfile(args),
     });
-    console.log("refreshUser2", user.displayName);
-    console.log("refreshUser3", userObj);
   };
 
   // Use Hook to add 'onAuthStateChanged' Event Lister to 'useEffect'(= 'Mounting Components' Event Lister)
@@ -27,7 +23,6 @@ function App() {
         uid: user.uid,
         updateProfile: (args) => user.updateProfile(args),
       });
-      console.log("useEffect", userObj);
       setInit(true);
     });
   }, [])
