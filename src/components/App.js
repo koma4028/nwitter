@@ -18,11 +18,15 @@ function App() {
   // Use Hook to add 'onAuthStateChanged' Event Lister to 'useEffect'(= 'Mounting Components' Event Lister)
   useEffect(() => {
     fbAuth.onAuthStateChanged((user) => {
-      if (user) setUserObj({
-        displayName: user.displayName,
-        uid: user.uid,
-        updateProfile: (args) => user.updateProfile(args),
-      });
+      if (user) {
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
+      } else {
+        setUserObj(null);
+      };
       setInit(true);
     });
   }, [])

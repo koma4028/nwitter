@@ -8,11 +8,6 @@ function Profile({ userObj, refreshUser }) {
     const onSignOutClick = () => {
         fbAuth.signOut();
         history("/");
-
-        // Refresh 해 주어야 정상적으로 Sign Out 됨
-        // 이하 두 방법 모두 가능하나 Refresh 형상이 보임..
-        history(0);
-        // window.location.reload();
     };
     const getMyBulweets = async () => {
         const bulweets = await fbFirestore
