@@ -1,39 +1,8 @@
+import AuthForm from "components/AuthForm";
 import { defaultFirebaseApp, fbAuth } from "firebaseInstance";
-import React, { useState } from "react";
+import React from "react";
 
 const Auth = () => {
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [newAccount, setNewAccount] = React.useState(true);
-    const [error, setError] = useState("");
-
-    const onChange = (event) => {
-        const { target: { name, value } } = event;
-        //const {name, value} = {event.target.name, event.target.value};
-        if (name === "email") setEmail(value);
-        else if (name === "password") setPassword(value);
-    };
-
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            if (newAccount) {
-                // Create Account
-                await fbAuth.createUserWithEmailAndPassword(email, password);
-            } else {
-                // Login
-                await fbAuth.signInWithEmailAndPassword(email, password);
-            }
-            // console.log(userData);
-        } catch (error) {
-            setError(error.message);
-        }
-    };
-
-    const toggleNewAccount = () => {
-        setNewAccount((prev) => !prev);
-    }
-
     const onSocialClick = async (event) => {
         const { target: { name }, } = event;  // ES6
         let provider;
@@ -48,6 +17,7 @@ const Auth = () => {
 
     return (
         <div>
+            <AuthForm />
             <div>
                 <button name="google" onClick={onSocialClick}>Continue with Google</button>
                 <button name="github" onClick={onSocialClick}>Continue with GitHub</button>
