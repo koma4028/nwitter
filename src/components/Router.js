@@ -4,34 +4,37 @@ import Auth from "routes/Auth";
 import Home from "routes/Home";
 import Navigation from "components/Navagation";
 import Profile from "routes/Profile";
+import PageLayout from "routes/PageLayout";
 
 const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
     return (
         <Router>
             {isLoggedIn && <Navigation userObj={userObj} />}
             <Routes>
-                {isLoggedIn ?
-                    // Show Home
-                    <>
+                <Route element={<PageLayout />}>
+                    {isLoggedIn ? (
+                        // Show Home & Profile
+                        <>
+                            <Route
+                                exact path="/"
+                                element={<Home userObj={userObj} />}
+                            >
+                            </Route>
+                            <Route
+                                exact path="/profile"
+                                element={<Profile refreshUser={refreshUser} userObj={userObj} />}
+                            >
+                            </Route>
+                        </>
+                    ) : (
+                        // Show Login
                         <Route
                             exact path="/"
-                            element={<Home userObj={userObj} />}
+                            element={<Auth />}
                         >
                         </Route>
-                        <Route
-                            exact path="/profile"
-                            element={<Profile refreshUser={refreshUser} userObj={userObj} />}
-                        >
-                        </Route>
-                    </>
-                    :
-                    // Show Login
-                    <Route
-                        exact path="/"
-                        element={<Auth />}
-                    >
-                    </Route>
-                }
+                    )}
+                </Route>
             </Routes>
         </Router>
     );

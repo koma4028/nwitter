@@ -15,7 +15,7 @@ function Profile({ userObj, refreshUser }) {
             .where("creatorId", "==", userObj.uid)
             .orderBy("createDate", "desc")
             .get();
-        console.log(bulweets);
+        // console.log(bulweets);
     };
     // 수업에서는 async/await 사용 안해도 되던데 왜 반드시 써야 Re-rendering 하는지 확인 필요
     const onSubmit = async (event) => {
@@ -35,18 +35,29 @@ function Profile({ userObj, refreshUser }) {
     }, []);
 
     return (
-        <>
-            <form onSubmit={onSubmit}>
+        <div className="container">
+            <form className="profileForm" onSubmit={onSubmit}>
                 <input
+                    className="formInput"
                     type="text"
                     placeholder="Input Your Nickname"
+                    autoFocus
                     value={newDisplayName}
                     onChange={onChange}
                 />
-                <input type="submit" value="Update Profile" />
+                <input
+                    className="formBtn upperMargin10"
+                    type="submit"
+                    value="Update Profile"
+                />
             </form>
-            <button onClick={onSignOutClick}>Sign Out</button>
-        </>
+            <button
+                className="formBtn upperMargin30"
+                onClick={onSignOutClick}
+            >
+                Sign Out
+            </button>
+        </div>
     );
 }
 

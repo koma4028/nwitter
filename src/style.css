@@ -32,7 +32,26 @@ form {
   width: 100%;
 }
 
-.nweet-input::placeholder {
+footer {
+  width: 100%;
+  z-index: 1;
+  bottom: 0;
+  position: fixed;
+  display: flex;
+  justify-Content: center;
+  margin: 10px;
+}
+ 
+.pageLayout {
+  max-width: 890px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.bulweet-input::placeholder {
   color: white;
   opacity: 0.9;
 }
@@ -70,6 +89,14 @@ form {
   background-color: tomato;
 }
 
+.upperMargin30 {
+  margin-top: 30px;
+}
+
+.upperMargin10 {
+  margin-top: 10px;
+}
+
 /* Profile Page */
 
 .profileForm {
@@ -84,7 +111,7 @@ form {
   margin-top: 50px;
 }
 
-/* Nwitter Factory */
+/* Bulweet Factory */
 
 .factoryForm {
   display: flex;
@@ -152,6 +179,7 @@ form {
   color: #04aaff;
   cursor: pointer;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .factoryForm__clear span {
@@ -159,15 +187,15 @@ form {
   font-size: 12px;
 }
 
-/* Nweet */
+/* bulweet */
 
-.nweetEdit .formBtn {
+.bulweetEdit .formBtn {
   cursor: pointer;
   margin-top: 15px;
   margin-bottom: 5px;
 }
 
-.nweet {
+.bulweet {
   margin-bottom: 20px;
   background-color: white;
   width: 100%;
@@ -180,11 +208,12 @@ form {
   color: rgba(0, 0, 0, 0.8);
 }
 
-.nweet h4 {
+.bulweet h4 {
   font-size: 14px;
+  margin-right: 30px;
 }
 
-.nweet img {
+.bulweet img {
   right: -10px;
   top: 20px;
   position: absolute;
@@ -194,17 +223,17 @@ form {
   margin-top: 10px;
 }
 
-.nweet__actions {
+.bulweet__actions {
   position: absolute;
   right: 10px;
   top: 10px;
 }
 
-.nweet__actions span {
+.bulweet__actions span {
   cursor: pointer;
 }
 
-.nweet__actions span:first-child {
+.bulweet__actions span:first-child {
   margin-right: 10px;
 }
 
@@ -223,6 +252,7 @@ form {
   justify-content: space-between;
   width: 100%;
   max-width: 320px;
+  margin: 20px 5px;
 }
 
 .authBtn {
@@ -254,7 +284,7 @@ form {
   text-align: center;
   background: #04aaff;
   color: white;
-  margin-top: 10;
+  margin-top: 10px;
   cursor: pointer;
 }
 

@@ -1,5 +1,7 @@
 import { fbFirestore, fbStorage } from "firebaseInstance";
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Bulweet = ({ bulweetObj, isOwner }) => {
     const [isEditing, setEditing] = useState(false);
@@ -31,7 +33,7 @@ const Bulweet = ({ bulweetObj, isOwner }) => {
         toggleEditing();
     };
 
-    const onCalcelClick = (event) => {
+    const onCancelClick = (event) => {
         setBulweetText(bulweetObj.text);
         toggleEditing();
     };
@@ -39,41 +41,47 @@ const Bulweet = ({ bulweetObj, isOwner }) => {
     const toggleEditing = () => setEditing(prev => !prev);
 
     return (
-        <div>
+        <div className="bulweet">
             {
                 (isOwner && isEditing) ? (
                     <>
-                        <form onSubmit={onSubmit}>
+                        <form onSubmit={onSubmit} className="container bulweetEdit">
                             <input
+                                className="formInput"
                                 type="text"
                                 placeholder="Edit your Bulweet"
                                 value={bulweetText}
                                 required
+                                autoFocus
                                 onChange={onChange}
                                 maxLength={120}
                             />
-                            <input 
+                            <input
+                                className="formBtn"
                                 type="submit"
                                 value="Update"
                             />
                         </form>
-                        <button
-                            onClick={onCalcelClick}
-                        >
+                        <span onClick={onCancelClick} className="formBtn cancelBtn">
                             Cancel
-                        </button>
+                        </span>
                     </>
                 ) : (
                     <>
                         <h4>{bulweetText}</h4>
-                        {bulweetObj.downloadUrl && <img src={bulweetObj.downloadUrl} width="50px" height="50px" />}
+                        {bulweetObj.downloadUrl && <img src={bulweetObj.downloadUrl} />}
                     </>
                 )
             }
-            {(isOwner && !isEditing) && <>
-                <button onClick={onDeleteClick}>Delete</button>
-                <button onClick={onModifyClick}>Modify</button>
-            </>}
+            {(isOwner && !isEditing) &&
+            <div className="bulweet__actions">
+                <span onClick={onDeleteClick}>
+                <FontAwesomeIcon icon={faTrash} />
+              </span>
+              <span onClick={onModifyClick}>
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </span>
+            </div>}
         </div>
     );
 }
